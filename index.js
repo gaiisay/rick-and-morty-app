@@ -1,4 +1,5 @@
 import {createCharacterCard} from './components/card/card.js';
+import {createButton} from './components/nav-button/nav-button.js';
 
 const cardContainer = document.querySelector('[data-js="card-container"]');
 const searchBarContainer = document.querySelector(
@@ -6,8 +7,8 @@ const searchBarContainer = document.querySelector(
 );
 const searchBar = document.querySelector('[data-js="search-bar"]');
 const navigation = document.querySelector('[data-js="navigation"]');
-const prevButton = document.querySelector('[data-js="button-prev"]');
-const nextButton = document.querySelector('[data-js="button-next"]');
+const prevButton = createButton(getPreviousPage, 'previous');
+const nextButton = createButton(getNextPage, 'next');
 const pagination = document.querySelector('[data-js="pagination"]');
 const apiUrl = 'https://rickandmortyapi.com/api/character';
 
@@ -15,6 +16,9 @@ const apiUrl = 'https://rickandmortyapi.com/api/character';
 let maxPage = 1;
 let page = 1;
 let searchQuery = '';
+
+fetchCharacters(page);
+navigation.append(prevButton, pagination, nextButton);
 
 async function fetchCharacters() {
   try {
@@ -36,19 +40,19 @@ async function fetchCharacters() {
   }
 }
 
-nextButton.addEventListener('click', () => {
+function getNextPage() {
   if (page < maxPage) {
     page++;
     fetchCharacters();
   }
-});
+}
 
-prevButton.addEventListener('click', () => {
+function getPreviousPage() {
   if (page > 1) {
     page--;
     fetchCharacters();
   }
-});
+}
 
 searchBar.addEventListener('submit', event => {
   event.preventDefault();
@@ -57,5 +61,3 @@ searchBar.addEventListener('submit', event => {
   fetchCharacters();
   //event.target.reset();
 });
-
-fetchCharacters(page);
