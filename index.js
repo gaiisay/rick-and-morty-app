@@ -7,7 +7,7 @@ const cardContainer = document.querySelector('[data-js="card-container"]');
 const searchBarContainer = document.querySelector(
   '[data-js="search-bar-container"]',
 );
-const searchBar = createSearchBar(search);
+const searchBar = createSearchBar(search, reset);
 const navigation = document.querySelector('[data-js="navigation"]');
 const prevButton = createButton(getPreviousPage, 'previous');
 const nextButton = createButton(getNextPage, 'next');
@@ -19,7 +19,7 @@ let maxPage = 1;
 let page = 1;
 let searchQuery = '';
 
-fetchCharacters(page);
+fetchCharacters();
 navigation.append(prevButton, pagination, nextButton);
 searchBarContainer.append(searchBar);
 
@@ -63,4 +63,10 @@ function search(event) {
   page = 1;
   fetchCharacters();
   //event.target.reset();
+}
+
+function reset() {
+  searchQuery = '';
+  page = 1;
+  fetchCharacters();
 }
