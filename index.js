@@ -1,5 +1,6 @@
 import {createCharacterCard} from './components/card/card.js';
 import {createButton} from './components/nav-button/nav-button.js';
+import {createPagination} from './components/nav-pagination/nav-pagination.js';
 
 const cardContainer = document.querySelector('[data-js="card-container"]');
 const searchBarContainer = document.querySelector(
@@ -9,7 +10,7 @@ const searchBar = document.querySelector('[data-js="search-bar"]');
 const navigation = document.querySelector('[data-js="navigation"]');
 const prevButton = createButton(getPreviousPage, 'previous');
 const nextButton = createButton(getNextPage, 'next');
-const pagination = document.querySelector('[data-js="pagination"]');
+const pagination = createPagination();
 const apiUrl = 'https://rickandmortyapi.com/api/character';
 
 // States
@@ -54,10 +55,10 @@ function getPreviousPage() {
   }
 }
 
-searchBar.addEventListener('submit', event => {
+function search(event) {
   event.preventDefault();
   searchQuery = event.target.elements.query.value;
   page = 1;
   fetchCharacters();
   //event.target.reset();
-});
+}
