@@ -16,16 +16,15 @@ let maxPage = 1;
 let page = 1;
 let searchQuery = '';
 
-async function fetchCharacters(currentPage) {
+async function fetchCharacters() {
   try {
-    const response = await fetch(apiUrl + `?page=${currentPage}`);
+    const response = await fetch(apiUrl + `?page=${page}&name=${searchQuery}`);
     if (!response.ok) {
       throw new Error(response.status + ': fetching data failed!');
     }
     const characters = await response.json();
-    console.log();
     maxPage = characters.info.pages;
-    // console.log(characters);
+    console.log(characters);
     cardContainer.innerHTML = '';
     characters.results.forEach(character => {
       const characterCard = createCharacterCard(character);
@@ -38,18 +37,24 @@ async function fetchCharacters(currentPage) {
 }
 
 nextButton.addEventListener('click', () => {
-  console.log('next button clicked ' + page + ' ' + maxPage);
   if (page < maxPage) {
     page++;
-    fetchCharacters(page);
+    fetchCharacters();
   }
 });
 
 prevButton.addEventListener('click', () => {
   if (page > 1) {
     page--;
-    fetchCharacters(page);
+    fetchCharacters();
   }
+});
+
+searchBar.addEventListener('submit', event => {
+  event.preventDefault();
+  searchQuery = event.target.elements.query.value;
+  fetchCharacters();
+  //event.target.reset();
 });
 
 fetchCharacters(page);
