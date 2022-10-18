@@ -33,6 +33,7 @@ async function fetchCharacters() {
     maxPage = characters.info.pages;
     console.log(characters);
     cardContainer.innerHTML = '';
+    window.scrollTo(top);
     characters.results.forEach(character => {
       const characterCard = createCharacterCard(character);
       cardContainer.append(characterCard);
